@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'alpha-logo.png' %}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %} GAIlery ᚫ {% endblock %}</title>
+    <!-- CSS -->
+    <link href="{% static 'bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/@barba/core/dist/barba.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="{% static 'floating_tab.css' %}">
+    {% block css %}
+    {% endblock %}
+    <script>
+        const staticUrl = '{% static "" %}';
+    </script>
+</head>
+<body class="bg-dark text-white" style="margin-bottom: 20px;">
+<style>
+    body {
+        background-image: url('/static/3840x2160-black-solid-color-background.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+</style>
+<div class="floating-tab expanded" id="floatingTab">
+    <span id="floatingTabIcon" onclick="toggleFloatingTab(event)">
+        <img src="{% static 'uhhngy.jpg' %}" alt="Tab icon" id="floatingTabImage">
+    </span>
+    <div class="sound-buttons">
+        <button class="sound-button" onclick="playSound('sound1');" title="Sound 1">Sound 1</button>
+        <button class="sound-button" onclick="playSound('sound2');" title="Sound 2">Sound 2</button>
+        <button class="sound-button" onclick="playSound('sound3');" title="Sound 3">Sound 3</button>
+        <button class="sound-button" onclick="playSound('sound4');" title="Sound 4">Sound 4</button>
+        <button class="sound-button" onclick="playSound('sound5');" title="Sound 5">Sound 5</button>
+    </div>
+</div>
+{% block main %}
+
+{% endblock %}
+<!-- jQuery  -->
+<script src="{% static 'bootstrap/jquery-3.6.0.min.js' %}"></script>
+<!-- Bootstrap  -->
+<script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+<!-- Barba.js JS -->
+<script src="https://unpkg.com/@barba/core/dist/barba.min.js"></script>
+<script>
+
+</script>
+{% block js %}
+{% endblock %}
+<script>
+    function toggleFloatingTab(event) {
+        event.stopPropagation();
+        const floatingTab = document.getElementById('floatingTab');
+        floatingTab.classList.toggle('expanded');
+    }
+
+    function playSound(soundName) {
+        // Prevent the floating tab from collapsing when a sound button is clicked
+        event.stopPropagation();
+
+        const audioElement = new Audio(`${staticUrl}sounds/${soundName}.wav`);
+        console.log(`Attempting to play: ${staticUrl}sounds/${soundName}.wav`);
+        audioElement.play();
+    }
+</script>
+</body>
+</html>

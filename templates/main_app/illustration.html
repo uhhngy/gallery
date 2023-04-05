@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Illustration{% endblock %}
+{% block css %}
+<style>
+    .image-preview {
+        object-fit: cover;
+        width: 350px;
+        height: 350px;
+        transition: height 2s ease;
+        margin: 1px;
+        position: relative;
+    }
+
+    .image-container {
+        padding: 5px;
+    }
+    
+    .container {
+        max-width: 1450px;
+        min-width: 1450px;
+    }
+
+    .preview-title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-size: 12px;
+        text-align: center;
+        z-index: 2;
+        box-sizing: border-box;
+        border: 2px solid white;
+    }
+
+</style>
+{% endblock %}
+{% block main %}
+    {% include "navbar.html" %}
+    <div class="container" style="padding-top: 20px;">
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="nav justify-content-start">
+                    <li class="nav-item">
+                        <span class="nav-link" style="font-weight: bold; height: 60px;">Filter</span>
+                    </li>
+                    {% for item in filter_action %}
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: darkgray; height: 60px;" href="{% url 'illustration_filter' %}?q={{ item.0 }}">{{ item.1 }}</a>
+                        </li>
+                    {% endfor %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="font-weight: bold; height: 60px;" href="{% url 'illustration' %}">Reset</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4 mr-0">
+                <form class="form-inline my-2 my-lg-0" action="{% url 'illustration_filter' %}" method="get">
+                    <input class="form-control mr-sm-2 ml-auto" type="text" name="title" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="row row-cols-4">
+            {% if illustration_list %}
+            {% for item in illustration_list %}
+                <div class="col p-0 mt-2">
+                    <div class="image-container">
+                        <a href="{% url 'illustration_detail' pk=item.id %}">
+                            <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="image-preview preview-image" data-title="{{ item.title }}">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+                <p class="text-warning col-12 mt-3">Sorry, there are no matching data or results</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+<script>
+    const previewImages = document.querySelectorAll('.preview-image');
+    previewImages.forEach(image => {
+        image.addEventListener('mouseover', function() {
+            this.style.filter = 'brightness(70%)';
+            const title = this.dataset.title;
+            const titleElement = document.createElement('p');
+            titleElement.innerText = title;
+            titleElement.classList.add('preview-title');
+            this.parentElement.appendChild(titleElement);
+        });
+        image.addEventListener('mouseout', function() {
+            this.style.filter = 'brightness(100%)';
+            const titleElement = this.parentElement.querySelector('.preview-title');
+            if (titleElement) {
+                titleElement.remove();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

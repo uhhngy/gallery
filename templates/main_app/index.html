@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<style>
+    .init {
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+    .init img {
+        display: inline-block;
+        max-width: 100%;
+    }
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-text {
+        font-family: 'Inter', sans-serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 30px;
+        text-align: center;
+        max-width: 550px;
+        max-height: 400px;
+        opacity: 1;
+        transition: opacity 2s;
+    }
+    .fade-in {
+        opacity: 0;
+        transition: opacity 2.5s ease-in-out;
+    }
+
+    .fade-in.visible {
+        opacity: 1;
+    }
+    
+    .button {
+        display: inline-block;
+        padding: 10px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #000000;
+        background-color: #969696;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 3px #474747;
+        margin: 0 auto;
+    }
+    .button:hover {
+        background-color: #d8d8d8
+    }
+    .button:active {
+        background-color: #969696;
+        box-shadow: 0 5px #666;
+        transform: translateY(1px);
+    }
+    .container {
+        max-height: 500px;
+    }
+    .carousel-inner img {
+        max-height: 500px;
+        width: auto;
+        object-fit: contain;
+    }
+    .content-wrapper {
+        margin-top: 500px;
+        margin-bottom: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+        position: relative;
+    }
+    .content-wrapper2 {
+        margin-top: 600px;
+        margin-bottom: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+        position: relative;
+    }
+    .horizontal-line {
+        border-top: 1px solid #464646; 
+        width: 60%;
+        margin: 0 auto;
+        opacity: 0;
+        z-index: 1;
+        animation: fadeIn 3s ease-in-out forwards;
+    }
+    .text {
+        flex: 1;
+        text-align: center;
+        margin: 0;
+    }
+    .carousel-container {
+        flex: 1;
+    }
+    .generate {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    footer {
+        background-color: #000000;
+        padding: 20px;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+    .footer-link {
+        color: #333;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    .footer-link:hover {
+        text-decoration: none;
+        color: #ffffff;
+    }
+    .footer-logo img {
+        max-width: 150px; 
+        max-height: 80px;
+    }
+    .footer-logo {
+        margin-top: 20px;
+    }
+    iframe {
+        border: none;   
+        resize: both;
+        overflow: auto;
+        width: 800px;
+        height: 450px;
+    }
+</style>
+{% endblock %}
+{% block main %}
+    {% include "navbar.html" %}
+    <div class="init fade-in">
+        <div class="image-container">
+            <img src="/static/frame.png" alt="Frame">
+            <div class="image-text rotating-text">Text ignites the canvas, marrying mindscapes with masterpieces. <br><br> - GPT-4</div>
+        </div>
+    </div>
+    <div class="horizontal-line fade-in"></div>
+    <div class="content-wrapper2 fade-in">
+        <div class="text">
+            <iframe
+            src="https://www.youtube.com/embed/2ARoWCvM0Vg?autoplay=1&loop=1" allow="autoplay">
+            </iframe>
+        </div>
+        <div class="carousel-container">
+            <div class="generate">
+                <div class="text">
+                    <h1>Generate Image</h1>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="horizontal-line fade-in"></div>
+
+    <div class="content-wrapper fade-in">
+        <div class="text">
+            <h1>Beyond The Paper</h1>
+            <br>
+            <h2>Your creativity starts in here, in this moment</h2>
+            <br>
+            <a href="{% url 'generate' %}" class="button">Try DALL·E 2</a>
+        </div>
+        <div class="carousel-container">
+            <div class="container">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for item in illustration_list %}
+                            {% if forloop.counter == 1 %}
+                                <div class="carousel-item active" data-interval="5000">
+                                    <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="d-block w-100" alt="...">
+                                </div>
+                            {% else %}
+                                <div class="carousel-item" data-interval="5000">
+                                <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="d-block w-100" alt="...">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="horizontal-line fade-in"></div>
+    <footer>
+        <div class="footer-links">
+            <a href="https://openai.com/product/dall-e-2" class="footer-link">DALL·E</a>
+            <a href="https://novelai.net/" class="footer-link">NovelAI</a>
+            <a href="https://github.com/Stability-AI/stablediffusion" class="footer-link">Stable Diffusion</a>
+            <a href="https://www.midjourney.com/home/?callbackUrl=%2Fapp%2F" class="footer-link">Midjourney</a>
+
+        </div>
+        <div class="footer-logo">
+            <img src="/static/uhhngy-hi-res.png" alt="Logo">
+        </div>
+    </footer>
+{% endblock %}
+{% block js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fadeInElements = document.querySelectorAll(".fade-in");
+
+        function isElementVisible(el) {
+            const rect = el.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+            return (
+                rect.top <= windowHeight &&
+                rect.bottom >= 0
+            );
+        }
+
+        function checkVisibility() {
+            fadeInElements.forEach(function (el) {
+                if (isElementVisible(el)) {
+                    el.classList.add("visible");
+                }
+            });
+        }
+
+        checkVisibility();
+
+        window.addEventListener("scroll", function () {
+            checkVisibility();
+        });
+    });
+</script>
+<script>
+    const rotatingTexts = [
+        'Text ignites the canvas, marrying mindscapes with masterpieces.<br><br>- GPT-4',
+        'テキストはキャンバスに火をつけ、<br>心象風景と傑作を結びつける。<br><br>- GPT-4',
+        '字如火焰舞，點燃畫布色，<br>心景與傑作，共融一片天。<br><br>- GPT-4'
+    ];
+    let currentIndex = 0;
+    const imageTextElement = document.querySelector(".image-text");
+
+    function changeVisibleText() {
+        imageTextElement.style.opacity = '0';
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % rotatingTexts.length;
+            imageTextElement.innerHTML = rotatingTexts[currentIndex];
+            imageTextElement.style.opacity = '1';
+        }, 2000);
+    }
+
+    setInterval(changeVisibleText, 7000);
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ text.title }}{% endblock %}
+{% load bootstrap4 %}
+{% block css %}
+    <style>
+        .col-6 button{
+            height: 80px;
+        }
+    </style>
+{% endblock %}
+{% block main %}
+    {% include "navbar.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <div class="w-100 h-100 border border-light p-2">
+                    {{ text.text }}
+                </div>
+            </div>
+            <div class="col-5">
+                <h3>Creation details</h3>
+                <p class="mb-0">Model: </p>
+                <p>{{ text.get_tag_display }}</p>
+                <p class="mb-0">Title: </p>
+                <p>{{ text.title }}</p>
+                <p class="mb-0">Description: </p>
+                <p>{{ illustration.description }}</p>
+                <div class="d-flex">
+                    <div class="col-6">
+                        <button class="btn btn-outline-light w-100" onclick="AddCount('{{ text.id }}','text','human')">
+                            <span>HUMAN</span>
+                            <br>
+                            <span>{{ text.textcommentmodel.human }}</span>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-outline-primary w-100" onclick="AddCount('{{ text.id }}','text','ai')">
+                            <span>AI</span>
+                            <br>
+                            <span>{{ text.textcommentmodel.ai }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script>
+        function AddCount(obj_id,obj_type,btn_type){
+            if (localStorage.getItem(obj_id+obj_type+btn_type) == null){
+                $.ajax({
+                    url: "{% url 'add_count' %}",
+                    type: "POST",
+                    data: {
+                        obj_id: obj_id,
+                        obj_type: obj_type,
+                        btn_type: btn_type,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data) {
+                        if (data.code == 200){
+                            localStorage.setItem(obj_id+obj_type+btn_type,1);
+                            alert("Thanks for your vote");
+                            location.reload()
+                        }
+                    }
+                })
+            }else{
+                alert("You have already clicked this button");
+            }
+        }
+
+    </script>
+{% endblock %}

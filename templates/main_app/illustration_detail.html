@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ illustration.title }}{% endblock %}
+{% load bootstrap4 %}
+{% block css %}
+    <style>
+        .col-6 button{
+            height: 80px;
+        }
+    </style>
+{% endblock %}
+{% block main %}
+    {% include "navbar.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <img src="{{ MEDIA_URL }}{{ illustration.image.url }}" alt="" style="width: 100%;">
+            </div>
+            <div class="col-5">
+                <h3>Creation details</h3>
+                <p class="mb-0">Model: </p>
+                <p>{{ illustration.get_tag_display }}</p>
+                <p class="mb-0">Title: </p>
+                <p>{{ illustration.title }}</p>
+                <p class="mb-0">Prompt: </p>
+                <p>{{ illustration.prompt }}</p>
+                <p class="mb-0">Seed: </p>
+                <p>{{ illustration.seed }}</p>
+                <p class="mb-0">Description: </p>
+                <p>{{ illustration.description }}</p>
+                <div class="d-flex">
+                    <div class="col-6">
+                        <button class="btn btn-outline-light w-100" onclick="AddCount('{{ illustration.id }}','illustration','human')">
+                            <span>HUMAN</span>
+                            <br>
+                            <span>{{ illustration.illustrationcommentmodel.human }}</span>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-outline-primary w-100" onclick="AddCount('{{ illustration.id }}','illustration','ai')">
+                            <span>AI</span>
+                            <br>
+                            <span>{{ illustration.illustrationcommentmodel.ai }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script>
+        function AddCount(obj_id,obj_type,btn_type){
+            if (localStorage.getItem(obj_id+obj_type+btn_type) == null){
+                $.ajax({
+                    url: "{% url 'add_count' %}",
+                    type: "POST",
+                    data: {
+                        obj_id: obj_id,
+                        obj_type: obj_type,
+                        btn_type: btn_type,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data) {
+                        if (data.code == 200){
+                            localStorage.setItem(obj_id+obj_type+btn_type,1);
+                            if (btn_type == "human"){
+                                localStorage.setItem(obj_id+obj_type+"ai",1);
+                            }else{
+                                localStorage.setItem(obj_id+obj_type+"human",1);
+                            }
+                            alert("Thanks for your vote");
+                            location.reload()
+                        }
+                    }
+                })
+            }else{
+                alert("You have already clicked this button");
+            }
+
+
+        }
+
+    </script>
+{% endblock %}

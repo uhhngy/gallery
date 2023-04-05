@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Upload Novel{% endblock %}
+{% load bootstrap4 %}
+{% block css %}
+<style>
+.form-container {
+    padding-top: 50px;
+}
+</style>
+{% endblock %}
+{% block main %}
+    {% include "navbar.html" %}
+    <div class="d-flex justify-content-center flex-column">
+        <div class="m-auto w-75">
+            {% include "messages.html" %}
+        </div>
+        <div class="m-auto w-100 d-flex justify-content-center form-container">
+            <form action="{% url 'upload_text' %}" method="post" enctype="multipart/form-data" class="form w-50">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+        </form>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% block js %}
+{% endblock %}

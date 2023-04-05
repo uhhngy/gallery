@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Error{% endblock %}
+{% block css %}
+<style>
+.button {
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #000000;
+    background-color: #969696;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #474747;
+    margin: 0 auto;
+    width: 200px;
+}
+.button:hover {
+    background-color: #d8d8d8
+}
+.button:active {
+    background-color: #969696;
+    box-shadow: 0 5px #666;
+    transform: translateY(1px);
+}
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 56px);
+}
+.centered-content {
+    text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+{% include "navbar.html" %}
+
+<div class="center-screen">
+    <div class="centered-content">
+        <h1>Error</h1>
+        <p>{{ error_message }}</p>
+        <br>
+        <button onclick="goBack()" class="button">Go back</button>
+        <a href="{% url 'generate' %}" class="button">New Generation</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+{% endblock %}

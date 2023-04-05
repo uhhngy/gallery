@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}DALL·E 2{% endblock %}
+{% block css %}
+<style>
+.button {
+    display: inline-block;
+    padding: 10px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #000000;
+    background-color: #969696;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #474747;
+    margin: 0 auto;
+    width: 200px;
+
+}
+.button:hover {
+    background-color: #d8d8d8
+}
+.button:active {
+    background-color: #969696;
+    box-shadow: 0 5px #666;
+    transform: translateY(1px);
+}
+</style>
+{% endblock %}
+{% block main %}
+{% include "navbar.html" %}
+
+    <div style="text-align: center;">
+        <br>
+        <h1>DALL·E 2</h1>
+        <br>
+        <form method="post" style="display: inline-block;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <a href="{% url 'generate' %}" class="button">Clear</a>
+            <button type="submit" class="button">Generate Image</button>
+        </form>
+        <hr style="border: 1px solid #464646; width: 60%;">
+        {% if image_url %}
+            <h2>Generated Image:</h2>
+            <img src="{{ image_url }}" alt="Generated Image">
+            <br>
+            <a href="{{ image_url }}" download>Download Image</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

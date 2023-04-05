@@ -1,0 +1,25 @@
+<style>
+    .nav {
+        display: flex;
+        justify-content: center;
+        background-color: black;
+    }
+
+    .nav-link {
+        margin-right: 20px;
+    }
+
+    .nav-link:last-child {
+        margin-right: 0;
+    }
+</style>
+
+<div class="container mb-5">
+    <nav class="nav justify-content-center fixed-top" style="font-size:20px !important;">
+        <a class="nav-link text-white" href="{% url 'index' %}">Home</a>
+        <a class="nav-link text-white" href="{% url 'illustration' %}">View Illustration</a>
+        <a class="nav-link text-white" href="{% url 'text' %}">View Novel</a>
+        <a class="nav-link text-white" href="{% url 'upload_illustration' %}">Upload Illustration</a>
+        <a class="nav-link text-white" href="{% url 'upload_text' %}">Upload Novel</a>
+    </nav>
+</div>
