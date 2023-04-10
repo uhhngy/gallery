@@ -34,4 +34,7 @@ urlpatterns = [
     path('add_count/',views.AddCountView.as_view(),name="add_count"),
     path('', include('image_generator.urls')),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
