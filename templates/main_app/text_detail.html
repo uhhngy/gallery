@@ -7,25 +7,59 @@
         .col-6 button{
             height: 80px;
         }
+        #text-container {
+            font-size: 16px;
+        }
+        #details-container {
+            font-size: 16px;
+        }
+        .buttons{
+            padding-bottom: 5px;
+        }
+        .container{
+            padding-top: 50px;
+        }
     </style>
 {% endblock %}
 {% block main %}
     {% include "navbar.html" %}
     <div class="container">
         <div class="row">
-            <div class="col-7">
+            <div class="col-7" id="text-container">
+                <div class="buttons">
+                    <button id="increase-font-text" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="decrease-font-text" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="reset-font-text" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
                 <div class="w-100 h-100 border border-light p-2">
                     {{ text.text }}
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col-5" id="details-container">
+                <div class="buttons">
+                    <button id="increase-font-details" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="decrease-font-details" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="reset-font-details" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
                 <h3>Creation details</h3>
                 <p class="mb-0">Model: </p>
                 <p>{{ text.get_tag_display }}</p>
                 <p class="mb-0">Title: </p>
                 <p>{{ text.title }}</p>
                 <p class="mb-0">Description: </p>
-                <p>{{ illustration.description }}</p>
+                <p>{{ text.description }}</p>
                 <div class="d-flex">
                     <div class="col-6">
                         <button class="btn btn-outline-light w-100" onclick="AddCount('{{ text.id }}','text','human')">
@@ -43,7 +77,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -74,5 +107,21 @@
             }
         }
 
-    </script>
+        const textContainer = document.getElementById("text-container");
+        const detailsContainer = document.getElementById("details-container");
+
+        function adjustFontSize(container, factor) {
+            const currentFontSize = parseFloat(getComputedStyle(container).fontSize);
+            container.style.fontSize = currentFontSize + factor + "px"; 
+        }
+
+        document.getElementById("increase-font-text").addEventListener("click", () => adjustFontSize(textContainer, 2));
+        document.getElementById("decrease-font-text").addEventListener("click", () => adjustFontSize(textContainer, -2));
+        document.getElementById("reset-font-text").addEventListener("click", () => textContainer.style.fontSize = "16px");
+
+        document.getElementById("increase-font-details").addEventListener("click", () => adjustFontSize(detailsContainer, 2));
+        document.getElementById("decrease-font-details").addEventListener("click", () => adjustFontSize(detailsContainer, -2));
+        document.getElementById("reset-font-details").addEventListener("click", () => detailsContainer.style.fontSize = "16px");
+
+        </script>
 {% endblock %}

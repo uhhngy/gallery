@@ -7,6 +7,15 @@
         .col-6 button{
             height: 80px;
         }
+        .text-container {
+            font-size: 16px;
+        }
+        .buttons{
+            padding-bottom: 5px;
+        }
+        .container{
+            padding-top: 50px;
+        }
     </style>
 {% endblock %}
 {% block main %}
@@ -16,7 +25,18 @@
             <div class="col-7">
                 <img src="{{ MEDIA_URL }}{{ illustration.image.url }}" alt="" style="width: 100%;">
             </div>
-            <div class="col-5">
+            <div class="col-5 text-container">
+                <div class="buttons">
+                    <button id="increase-font" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="decrease-font" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button id="reset-font" class="btn btn-outline-light white-icon">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                </div>
                 <h3>Creation details</h3>
                 <p class="mb-0">Model: </p>
                 <p>{{ illustration.get_tag_display }}</p>
@@ -79,9 +99,21 @@
             }else{
                 alert("You have already clicked this button");
             }
-
-
         }
 
-    </script>
+        const increaseFontBtn = document.getElementById("increase-font");
+        const decreaseFontBtn = document.getElementById("decrease-font");
+        const resetFontBtn = document.getElementById("reset-font");
+        const textContainer = document.querySelector(".text-container");
+
+        function adjustFontSize(factor) {
+            const currentFontSize = parseFloat(getComputedStyle(textContainer).fontSize);
+            textContainer.style.fontSize = currentFontSize + factor + "px";
+        }
+
+        increaseFontBtn.addEventListener("click", () => adjustFontSize(2));
+        decreaseFontBtn.addEventListener("click", () => adjustFontSize(-2));
+        resetFontBtn.addEventListener("click", () => textContainer.style.fontSize = "16px");
+
+    </script> 
 {% endblock %}
