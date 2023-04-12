@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django.contrib.admin',
     'image_generator',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
